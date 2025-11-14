@@ -35,7 +35,7 @@ export const Hero = ({ onCategorySelect }: HeroProps) => {
           <div className="w-full border-t border-b border-gray-700 py-8 mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="h-px w-12 bg-gradient-to-r from-transparent to-gray-500" />
-              <span className="text-gray-400 text-sm font-mono tracking-widest uppercase">Powered by Solana Mainnet</span>
+              <span className="text-gray-400 text-sm font-mono tracking-widest uppercase">Powered by Polymarkets</span>
               <div className="h-px w-12 bg-gradient-to-l from-transparent to-gray-500" />
             </div>
 
