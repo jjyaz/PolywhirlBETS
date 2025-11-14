@@ -4,9 +4,10 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { MarketsList } from './components/MarketsList';
 import { ProfileSection } from './components/ProfileSection';
+import { MyBets } from './components/MyBets';
 
 function App() {
-  const [currentView, setCurrentView] = useState<'home' | 'profile'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'profile' | 'mybets'>('home');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   return (
@@ -26,6 +27,16 @@ function App() {
             Markets
           </button>
           <button
+            onClick={() => setCurrentView('mybets')}
+            className={`px-4 py-2 rounded-lg font-semibold transition-all ${
+              currentView === 'mybets'
+                ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white'
+                : 'bg-gray-800 text-gray-400 hover:text-white'
+            }`}
+          >
+            My Bets
+          </button>
+          <button
             onClick={() => setCurrentView('profile')}
             className={`px-4 py-2 rounded-lg font-semibold transition-all ${
               currentView === 'profile'
@@ -42,6 +53,8 @@ function App() {
             <Hero onCategorySelect={setSelectedCategory} />
             <MarketsList selectedCategory={selectedCategory} />
           </>
+        ) : currentView === 'mybets' ? (
+          <MyBets />
         ) : (
           <ProfileSection />
         )}
