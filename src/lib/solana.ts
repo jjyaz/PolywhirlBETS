@@ -6,7 +6,10 @@ const RPC_URLS = [
   'https://api.mainnet-beta.solana.com',
   'https://rpc.ankr.com/solana',
   'https://solana-mainnet.publicnode.com',
-  'https://1rpc.io/sol'
+  'https://1rpc.io/sol',
+  'https://solana-rpc.publicnode.com',
+  'https://rpc.hellomoon.io/solana-mainnet',
+  'https://solana-mainnet.rpc.extrnode.com'
 ];
 
 function timeout(ms: number) {

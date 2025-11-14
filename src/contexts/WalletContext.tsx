@@ -41,6 +41,9 @@ export const WalletProvider = ({ children }: WalletProviderProps) => {
       'https://rpc.ankr.com/solana',
       'https://solana-mainnet.publicnode.com',
       'https://1rpc.io/sol',
+      'https://solana-rpc.publicnode.com',
+      'https://rpc.hellomoon.io/solana-mainnet',
+      'https://solana-mainnet.rpc.extrnode.com'
     ];
 
     for (const endpoint of endpoints) {
