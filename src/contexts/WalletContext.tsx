@@ -65,8 +65,8 @@ export const WalletProvider = ({ children }: WalletProviderProps) => {
     }
 
     console.error('=== ALL ENDPOINTS FAILED ===');
-    console.log('Setting demo balance of 10 SOL for testing');
-    setBalance(10);
+    console.error('Unable to fetch balance from any RPC endpoint');
+    setBalance(0);
   };
 
   const connect = async () => {

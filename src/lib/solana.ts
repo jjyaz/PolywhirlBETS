@@ -26,33 +26,19 @@ async function tryConnect(url: string): Promise<Connection | null> {
   }
 }
 
-export async function getConnection(): Promise<{ connection: Connection | null; isDemo: boolean }> {
-  let connection: Connection | null = null;
-  let isDemo = false;
-
+export async function getConnection(): Promise<Connection> {
   for (const url of RPC_URLS) {
-    connection = await tryConnect(url);
+    const connection = await tryConnect(url);
     if (connection) {
-      break;
+      return connection;
     }
   }
 
-  if (!connection) {
-    console.error('All RPC endpoints failed. Falling back to demo mode with 10 SOL balance.');
-    isDemo = true;
-  }
-
-  return { connection, isDemo };
+  throw new Error('All RPC endpoints failed. Unable to connect to Solana network.');
 }
 
 export async function getBalance(publicKey: PublicKey): Promise<number> {
-  const { connection, isDemo } = await getConnection();
-  if (isDemo) {
-    return 10 * LAMPORTS_PER_SOL;
-  }
-  if (!connection) {
-    throw new Error('No connection available');
-  }
+  const connection = await getConnection();
   return connection.getBalance(publicKey);
 }
 

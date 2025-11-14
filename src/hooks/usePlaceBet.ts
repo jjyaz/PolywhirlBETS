@@ -32,35 +32,29 @@ export const usePlaceBet = () => {
         throw new Error(`Insufficient balance. You have ${balance.toFixed(4)} SOL but need ${amount.toFixed(4)} SOL.`);
       }
 
-      const { connection, isDemo } = await getConnection();
-
-      if (isDemo || !connection) {
-        console.log('Running in demo mode - simulating bet placement');
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        signature = `demo_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-      } else {
-        const { solana } = window as any;
-        if (!solana) {
-          throw new Error('Phantom wallet not found. Please install Phantom wallet extension.');
-        }
-
-        const transaction = new Transaction().add(
-          SystemProgram.transfer({
-            fromPubkey: publicKey,
-            toPubkey: PLATFORM_WALLET,
-            lamports: solToLamports(amount),
-          })
-        );
-
-        transaction.feePayer = publicKey;
-        const { blockhash } = await connection.getLatestBlockhash();
-        transaction.recentBlockhash = blockhash;
-
-        const signed = await solana.signTransaction(transaction);
-        signature = await connection.sendRawTransaction(signed.serialize());
-
-        await connection.confirmTransaction(signature);
+      const { solana } = window as any;
+      if (!solana) {
+        throw new Error('Phantom wallet not found. Please install Phantom wallet extension.');
       }
+
+      const connection = await getConnection();
+
+      const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: publicKey,
+          toPubkey: PLATFORM_WALLET,
+          lamports: solToLamports(amount),
+        })
+      );
+
+      transaction.feePayer = publicKey;
+      const { blockhash } = await connection.getLatestBlockhash();
+      transaction.recentBlockhash = blockhash;
+
+      const signed = await solana.signTransaction(transaction);
+      signature = await connection.sendRawTransaction(signed.serialize());
+
+      await connection.confirmTransaction(signature);
 
       const { data: optionData, error: optionError } = await supabase
         .from('market_options')
