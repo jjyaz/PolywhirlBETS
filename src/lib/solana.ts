@@ -45,6 +45,28 @@ export async function getBalance(publicKey: PublicKey): Promise<number> {
   return connection.getBalance(publicKey);
 }
 
+export async function confirmTransactionWithPolling(
+  connection: Connection,
+  signature: string,
+  maxAttempts: number = 12,
+  pollInterval: number = 5000
+): Promise<boolean> {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      const status = await connection.getSignatureStatus(signature);
+      if (status.value?.confirmationStatus === 'confirmed' || status.value?.confirmationStatus === 'finalized') {
+        console.log(`Transaction ${signature} confirmed on attempt ${attempt + 1}`);
+        return true;
+      }
+      console.log(`Attempt ${attempt + 1}: Transaction ${signature} not yet confirmed. Waiting...`);
+    } catch (error) {
+      console.error(`Polling error on attempt ${attempt + 1}:`, error);
+    }
+    await new Promise(resolve => setTimeout(resolve, pollInterval));
+  }
+  throw new Error(`Transaction ${signature} not confirmed after ${maxAttempts * (pollInterval / 1000)} seconds. Check on Solana Explorer.`);
+}
+
 export const PLATFORM_WALLET = new PublicKey('9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin');
 
 export const lamportsToSol = (lamports: number): number => {

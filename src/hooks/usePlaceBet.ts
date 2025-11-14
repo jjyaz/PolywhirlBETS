@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
-import { getConnection, PLATFORM_WALLET, solToLamports } from '../lib/solana';
+import { getConnection, PLATFORM_WALLET, solToLamports, confirmTransactionWithPolling } from '../lib/solana';
 import { supabase } from '../lib/supabase';
 import { useWallet } from '../contexts/WalletContext';
 
@@ -54,7 +54,7 @@ export const usePlaceBet = () => {
       const signed = await solana.signTransaction(transaction);
       signature = await connection.sendRawTransaction(signed.serialize());
 
-      await connection.confirmTransaction(signature);
+      await confirmTransactionWithPolling(connection, signature);
 
       const { data: optionData, error: optionError } = await supabase
         .from('market_options')
@@ -88,12 +88,20 @@ export const usePlaceBet = () => {
 
       if (txError) console.error('Failed to save transaction:', txError);
 
-      const { error: updateError } = await supabase
+      const { data: userData, error: userFetchError } = await supabase
         .from('users')
-        .update({ total_bets: supabase.sql`total_bets + 1` })
-        .eq('id', userId);
+        .select('total_bets')
+        .eq('id', userId)
+        .maybeSingle();
 
-      if (updateError) console.error('Failed to update user stats:', updateError);
+      if (!userFetchError && userData) {
+        const { error: updateError } = await supabase
+          .from('users')
+          .update({ total_bets: userData.total_bets + 1 })
+          .eq('id', userId);
+
+        if (updateError) console.error('Failed to update user stats:', updateError);
+      }
 
       setPlacing(false);
       return true;
