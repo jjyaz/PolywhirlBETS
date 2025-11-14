@@ -52,7 +52,7 @@ function App() {
               Polywhirl Bets - Powered by Solana Blockchain
             </p>
             <p className="text-gray-600 text-xs mt-2">
-              Running on Devnet - For testing purposes only
+              Running on Mainnet
             </p>
           </div>
         </footer>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
-import { connection, PLATFORM_WALLET, solToLamports } from '../lib/solana';
+import { getConnection, PLATFORM_WALLET, solToLamports } from '../lib/solana';
 import { supabase } from '../lib/supabase';
 import { useWallet } from '../contexts/WalletContext';
 
@@ -47,6 +47,12 @@ export const usePlaceBet = () => {
 
         if (balance < amount) {
           throw new Error(`Insufficient balance. You have ${balance.toFixed(4)} SOL but need ${amount.toFixed(4)} SOL.`);
+        }
+
+        const { connection, isDemo } = await getConnection();
+
+        if (isDemo || !connection) {
+          throw new Error('Unable to connect to Solana network. Please try again later.');
         }
 
         const transaction = new Transaction().add(
