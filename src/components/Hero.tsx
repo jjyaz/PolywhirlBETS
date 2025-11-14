@@ -29,8 +29,16 @@ export const Hero = ({ onCategorySelect }: HeroProps) => {
           <img
             src="/WhatsApp Image 2025-11-14 at 2.32.28 PM copy.png"
             alt="Polywhirl Bets"
-            className="w-full max-w-2xl h-auto mb-12"
+            className="w-full max-w-2xl h-auto mb-8"
           />
+
+          <div className="mb-12 px-4">
+            <div className="bg-gray-900 border-2 border-gray-700 px-6 py-4 max-w-3xl mx-auto">
+              <p className="font-mono text-gray-400 text-sm text-center break-all">
+                CA: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+              </p>
+            </div>
+          </div>
 
           <div className="w-full border-t border-b border-gray-700 py-8 mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
