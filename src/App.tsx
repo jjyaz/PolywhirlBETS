@@ -61,8 +61,8 @@ function App() {
 
         <footer className="bg-gradient-to-t from-black via-cyan-950/5 to-transparent border-t border-cyan-500/10 py-8 mt-20">
           <div className="max-w-7xl mx-auto px-6 text-center">
-            <p className="text-gray-400 text-sm">
-              Polywhirl Bets - Powered by Solana Blockchain
+            <p className="text-gray-400 text-sm font-mono tracking-wider">
+              POWERED BY POLYMARKETS
             </p>
             <p className="text-gray-600 text-xs mt-2">
               Running on Mainnet
