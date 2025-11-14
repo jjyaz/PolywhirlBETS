@@ -28,31 +28,20 @@ export const usePlaceBet = () => {
     let signature = '';
 
     try {
-      if (DEMO_MODE) {
-        if (balance < amount) {
-          throw new Error('Insufficient balance. In demo mode, your displayed balance is simulated.');
-        }
+      if (balance < amount) {
+        throw new Error(`Insufficient balance. You have ${balance.toFixed(4)} SOL but need ${amount.toFixed(4)} SOL.`);
+      }
 
+      const { connection, isDemo } = await getConnection();
+
+      if (isDemo || !connection) {
+        console.log('Running in demo mode - simulating bet placement');
         await new Promise(resolve => setTimeout(resolve, 1500));
         signature = `demo_${Date.now()}_${Math.random().toString(36).substring(7)}`;
       } else {
         const { solana } = window as any;
         if (!solana) {
           throw new Error('Phantom wallet not found. Please install Phantom wallet extension.');
-        }
-
-        if (balance <= 0) {
-          throw new Error('Balance is 0. Please ensure your wallet has SOL funds.');
-        }
-
-        if (balance < amount) {
-          throw new Error(`Insufficient balance. You have ${balance.toFixed(4)} SOL but need ${amount.toFixed(4)} SOL.`);
-        }
-
-        const { connection, isDemo } = await getConnection();
-
-        if (isDemo || !connection) {
-          throw new Error('Unable to connect to Solana network. Please try again later.');
         }
 
         const transaction = new Transaction().add(
