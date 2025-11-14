@@ -5,6 +5,7 @@ import { usePlaceBet } from '../hooks/usePlaceBet';
 import { useUser } from '../hooks/useUser';
 import { useWallet } from '../contexts/WalletContext';
 import { formatSol } from '../lib/solana';
+import { BetSuccessNotification } from './BetSuccessNotification';
 
 interface BetModalProps {
   market: MarketWithOptions;
@@ -45,24 +46,14 @@ export const BetModal = ({ market, optionId, onClose }: BetModalProps) => {
 
     if (success) {
       setSuccess(true);
-      setTimeout(() => {
-        onClose();
-      }, 2000);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-black border-4 border-gray-700 max-w-md w-full p-8 animate-scaleIn retro-scanline">
-        {success ? (
-          <div className="text-center py-8">
-            <div className="w-24 h-24 bg-white mx-auto mb-6 flex items-center justify-center">
-              <Sparkles className="text-black" size={48} />
-            </div>
-            <h3 className="text-2xl font-mono font-bold text-white mb-2 tracking-wider">BET PLACED</h3>
-            <p className="text-gray-400 font-mono text-sm">&gt; TX CONFIRMED ON SOLANA_</p>
-          </div>
-        ) : (
+    <>
+      <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 animate-fadeIn">
+        <div className="bg-black border-4 border-gray-700 max-w-md w-full p-8 animate-scaleIn retro-scanline">
+          {!success && (
           <>
             <div className="flex justify-between items-start mb-6 border-b-2 border-gray-800 pb-4">
               <div>
@@ -131,8 +122,17 @@ export const BetModal = ({ market, optionId, onClose }: BetModalProps) => {
               {placing ? 'Placing Bet...' : !connected ? 'Connect Wallet First' : userLoading ? 'Loading...' : 'Confirm Bet'}
             </button>
           </>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+
+      <BetSuccessNotification
+        show={success}
+        onClose={() => {
+          setSuccess(false);
+          onClose();
+        }}
+      />
+    </>
   );
 };

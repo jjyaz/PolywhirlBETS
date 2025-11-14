@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { useWallet } from '../contexts/WalletContext';
 import { usePlaceBet } from '../hooks/usePlaceBet';
+import { BetSuccessNotification } from './BetSuccessNotification';
 
 interface BinaryBetProps {
   marketId: string;
@@ -45,10 +46,6 @@ export const BinaryBet = ({
 
     if (success) {
       setShowSuccess(true);
-      setTimeout(() => {
-        setShowSuccess(false);
-        setSelectedSide(null);
-      }, 2000);
       onBetPlaced?.();
     }
   };
@@ -143,12 +140,6 @@ export const BinaryBet = ({
           </div>
         )}
 
-        {showSuccess && (
-          <div className="bg-green-900/30 border border-green-500/50 rounded-lg p-3 text-green-400 text-sm animate-pulse">
-            Bet placed successfully!
-          </div>
-        )}
-
         <button
           onClick={handlePlaceBet}
           disabled={!selectedSide || placing || betAmount <= 0 || betAmount > balance || !publicKey || !userId}
@@ -157,6 +148,14 @@ export const BinaryBet = ({
           {!publicKey ? 'Connect Wallet' : placing ? 'Placing Bet...' : 'Confirm Bet'}
         </button>
       </div>
+
+      <BetSuccessNotification
+        show={showSuccess}
+        onClose={() => {
+          setShowSuccess(false);
+          setSelectedSide(null);
+        }}
+      />
     </div>
   );
 };
