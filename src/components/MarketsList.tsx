@@ -1,5 +1,6 @@
 import { useBettingMarkets } from '../hooks/useBettingMarkets';
 import { BettingMarketCard } from './BettingMarketCard';
+import { useOddsPolling } from '../hooks/useOddsPolling';
 import { Loader2 } from 'lucide-react';
 
 interface MarketsListProps {
@@ -7,7 +8,9 @@ interface MarketsListProps {
 }
 
 export const MarketsList = ({ selectedCategory }: MarketsListProps) => {
-  const { markets, loading, error } = useBettingMarkets();
+  const { markets, loading, error, refetch } = useBettingMarkets();
+
+  useOddsPolling(refetch);
 
   if (loading) {
     return (

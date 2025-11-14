@@ -29,6 +29,11 @@ export interface BettingMarket {
   status: string;
   outcome: string | null;
   image_url: string | null;
+  market_type: string;
+  yes_odds: number;
+  no_odds: number;
+  total_volume: number;
+  liquidity: number;
   created_at: string;
 }
 
