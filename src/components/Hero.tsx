@@ -8,19 +8,28 @@ interface HeroProps {
 export const Hero = ({ onCategorySelect }: HeroProps) => {
   const [showInstructions, setShowInstructions] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
+  const [showTwitchBets, setShowTwitchBets] = useState(false);
 
   const categories = [
     { id: 'all', name: 'ALL MARKETS', icon: '◆' },
-    { id: 'pokemon', name: 'POKEMON BATTLES', icon: '⚡' },
     { id: 'sports', name: 'SPORTS', icon: '⚽' },
     { id: 'politics', name: 'POLITICS', icon: '🏛️' },
     { id: 'entertainment', name: 'ENTERTAINMENT', icon: '🎬' },
     { id: 'crypto', name: 'CRYPTO', icon: '₿' },
   ];
 
+  const twitchBets = [
+    { id: 'pokemon', name: 'POKEMON BATTLES', icon: '⚡' },
+  ];
+
   const handleCategoryClick = (categoryId: string) => {
     onCategorySelect(categoryId);
     setShowCategories(false);
+  };
+
+  const handleTwitchBetClick = (categoryId: string) => {
+    onCategorySelect(categoryId);
+    setShowTwitchBets(false);
   };
 
   return (
@@ -69,17 +78,24 @@ export const Hero = ({ onCategorySelect }: HeroProps) => {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center w-full max-w-2xl">
+          <div className="flex flex-col sm:flex-row gap-4 items-center w-full max-w-3xl">
             <button
               onClick={() => setShowCategories(!showCategories)}
-              className="bg-white hover:bg-gray-200 text-black px-8 py-4 font-mono font-bold text-sm tracking-widest uppercase transition-all border-2 border-white hover:scale-105 flex items-center justify-center gap-2"
+              className="bg-white hover:bg-gray-200 text-black px-8 py-4 font-mono font-bold text-sm tracking-widest uppercase transition-all border-2 border-white hover:scale-105 flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               ▶ Browse Markets
               {showCategories ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
             </button>
             <button
+              onClick={() => setShowTwitchBets(!showTwitchBets)}
+              className="bg-purple-600 hover:bg-purple-500 text-white px-8 py-4 font-mono font-bold text-sm tracking-widest uppercase transition-all border-2 border-purple-400 hover:scale-105 flex items-center justify-center gap-2 w-full sm:w-auto"
+            >
+              ⚡ Twitch Bets
+              {showTwitchBets ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+            </button>
+            <button
               onClick={() => setShowInstructions(!showInstructions)}
-              className="bg-transparent hover:bg-white/10 text-white px-8 py-4 font-mono font-bold text-sm tracking-widest uppercase transition-all border-2 border-gray-700 hover:border-white flex items-center justify-center gap-2"
+              className="bg-transparent hover:bg-white/10 text-white px-8 py-4 font-mono font-bold text-sm tracking-widest uppercase transition-all border-2 border-gray-700 hover:border-white flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               ? How Does It Work
               {showInstructions ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
@@ -118,6 +134,44 @@ export const Hero = ({ onCategorySelect }: HeroProps) => {
                 <div className="border-t border-gray-800 pt-4 mt-6">
                   <p className="font-mono text-gray-500 text-xs text-center">
                     // SELECT_A_CATEGORY_TO_VIEW_AVAILABLE_MARKETS
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {showTwitchBets && (
+            <div className="w-full max-w-3xl mt-8 bg-gradient-to-b from-purple-900/50 to-black border-2 border-purple-600 overflow-hidden animate-[slideDown_0.3s_ease-out]">
+              <div className="border-b border-purple-600 bg-purple-900/70 px-6 py-3">
+                <h3 className="font-mono text-white font-bold tracking-wide">TWITCH_LIVE_BETS.exe</h3>
+              </div>
+
+              <div className="p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {twitchBets.map((category) => (
+                    <button
+                      key={category.id}
+                      onClick={() => handleTwitchBetClick(category.id)}
+                      className="bg-black border-2 border-purple-700 hover:border-purple-400 hover:bg-purple-900/30 p-6 text-left transition-all group"
+                    >
+                      <div className="flex items-center gap-4">
+                        <span className="text-3xl">{category.icon}</span>
+                        <div>
+                          <h4 className="font-mono text-white font-bold text-sm group-hover:text-purple-300">
+                            {category.name}
+                          </h4>
+                          <p className="font-mono text-purple-400 text-xs mt-1">
+                            &gt; LIVE_STREAM_BETTING_
+                          </p>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+
+                <div className="border-t border-purple-800 pt-4 mt-6">
+                  <p className="font-mono text-purple-400 text-xs text-center">
+                    // BET_ON_LIVE_TWITCH_STREAMS_WITH_REAL-TIME_ODDS
                   </p>
                 </div>
               </div>
