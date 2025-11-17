@@ -35,6 +35,13 @@ export interface BettingMarket {
   total_volume: number;
   liquidity: number;
   created_at: string;
+  twitch_stream_id: string | null;
+  twitch_channel_name: string | null;
+  is_live_stream: boolean;
+  stream_embed_url: string | null;
+  player_one: string | null;
+  player_two: string | null;
+  viewer_count: number;
 }
 
 export interface MarketOption {

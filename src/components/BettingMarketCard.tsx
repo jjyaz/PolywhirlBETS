@@ -3,6 +3,7 @@ import { Calendar, TrendingUp } from 'lucide-react';
 import { MarketWithOptions } from '../hooks/useBettingMarkets';
 import { BetModal } from './BetModal';
 import { BinaryBet } from './BinaryBet';
+import { LiveStreamMarketCard } from './LiveStreamMarketCard';
 import { useWallet } from '../contexts/WalletContext';
 import { useUser } from '../hooks/useUser';
 
@@ -20,6 +21,10 @@ export const BettingMarketCard = ({ market }: BettingMarketCardProps) => {
     setSelectedOption(optionId);
     setShowBetModal(true);
   };
+
+  if (market.is_live_stream) {
+    return <LiveStreamMarketCard market={market} />;
+  }
 
   const eventDate = market.event_date ? new Date(market.event_date) : null;
   const isBinary = market.market_type === 'binary' && market.options.length === 2;

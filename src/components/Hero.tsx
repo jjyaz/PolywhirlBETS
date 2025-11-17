@@ -11,6 +11,7 @@ export const Hero = ({ onCategorySelect }: HeroProps) => {
 
   const categories = [
     { id: 'all', name: 'ALL MARKETS', icon: '◆' },
+    { id: 'pokemon', name: 'POKEMON BATTLES', icon: '⚡' },
     { id: 'sports', name: 'SPORTS', icon: '⚽' },
     { id: 'politics', name: 'POLITICS', icon: '🏛️' },
     { id: 'entertainment', name: 'ENTERTAINMENT', icon: '🎬' },
