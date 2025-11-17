@@ -20,6 +20,11 @@ export const Hero = ({ onCategorySelect }: HeroProps) => {
 
   const twitchBets = [
     { id: 'pokemon', name: 'POKEMON BATTLES', icon: '⚡' },
+    { id: 'smash', name: 'SUPER SMASH BROS', icon: '🎮' },
+    { id: 'tekken', name: 'TEKKEN', icon: '👊' },
+    { id: 'street-fighter', name: 'STREET FIGHTER', icon: '🥊' },
+    { id: 'rocket-league', name: 'ROCKET LEAGUE', icon: '🚗' },
+    { id: 'chess', name: 'CHESS', icon: '♟️' },
   ];
 
   const handleCategoryClick = (categoryId: string) => {

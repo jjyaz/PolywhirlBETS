@@ -76,12 +76,12 @@ Deno.serve(async (req: Request) => {
 
       const { data: gameIds } = await supabase
         .from("pokemon_game_ids")
-        .select("game_id")
+        .select("game_id, game_category")
         .eq("is_active", true);
 
       if (!gameIds || gameIds.length === 0) {
         return new Response(
-          JSON.stringify({ message: "No Pokemon game IDs found" }),
+          JSON.stringify({ message: "No game IDs found" }),
           {
             headers: { ...corsHeaders, "Content-Type": "application/json" },
             status: 200,
@@ -89,7 +89,14 @@ Deno.serve(async (req: Request) => {
         );
       }
 
-      const gameIdParams = gameIds.map((g) => `game_id=${g.game_id}`).join("&");
+      const gameCategoryMap = new Map<string, string>();
+      gameIds.forEach((g: any) => {
+        if (g.game_category) {
+          gameCategoryMap.set(g.game_id, g.game_category);
+        }
+      });
+
+      const gameIdParams = gameIds.map((g: any) => `game_id=${g.game_id}`).join("&");
       const streamsUrl = `https://api.twitch.tv/helix/streams?${gameIdParams}&first=100`;
 
       const streamsResponse = await fetch(streamsUrl, {
