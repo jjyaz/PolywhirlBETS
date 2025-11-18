@@ -50,7 +50,7 @@ export const Hero = ({ onCategorySelect }: HeroProps) => {
           <div className="mb-12 px-4">
             <div className="bg-gray-900 border-2 border-gray-700 px-6 py-4 max-w-3xl mx-auto">
               <p className="font-mono text-gray-400 text-sm text-center break-all">
-                CA: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                CA: D3yBdRcFE2TkDqq1AJBfK2yjV3Jhqyau1QiiAGu6pump
               </p>
             </div>
           </div>
